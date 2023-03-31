@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: db_passwd
+      MYSQL_DATABASE: db_name
+    volumes:
+      - ./mysql:/var/lib/mysql
+
+  scraper:
+    build: .
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: db_passwd
+      DB_NAME: db_name
+
+  api:
+    build: .
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: db_passwd
+      DB_NAME: db_passwd
+    ports:
+      - "8000:8000"
